@@ -12,6 +12,9 @@ namespace MineSweeperLogic
 
         public MineSweeperGame(int sizeX, int sizeY, int nrOfMines, IServiceBus bus)
         {
+            SizeX = sizeX;
+            SizeY = sizeY;
+            NumberOfMines = nrOfMines;
         }
 
         public int PosX { get; private set; }
@@ -36,8 +39,8 @@ namespace MineSweeperLogic
 
         public void ResetBoard()
         {
-        }
-
+        } 
+        
         public void DrawBoard()
         {
         }
