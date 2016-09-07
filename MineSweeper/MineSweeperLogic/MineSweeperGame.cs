@@ -47,7 +47,7 @@ namespace MineSweeperLogic
 
         public void ClickCoordinate()
         {
-            if (!Positions[PosY, PosX].IsOpen)
+            if (!Positions[PosY, PosX].IsOpen && !Positions[PosY, PosX].IsFlagged)
             {
                 if (Positions[PosY, PosX].HasMine)
                 {
