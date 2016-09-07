@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace MineSweeperLogic
 {
+   
     public class MineSweeperGame
     {
         public MineSweeperGame(int sizeX, int sizeY, int nrOfMines, IServiceBus bus)
@@ -61,27 +62,25 @@ namespace MineSweeperLogic
                     }
                     State = GameState.Lost;
                 }
+                else if (Positions[PosY, PosX].NrOfNeighbours != 0)
+                    Positions[PosY, PosX].IsOpen = true;
+
                 else
                 {
 
                     temp = 0;
-                   Positions[PosY, PosX].IsOpen = true;
-                    for (int y = 0; y < Positions.GetLength(0); y++)
+                    FloodFill(PosY, PosX);
+                   
+                    for (int y = 0; y < Positions.GetLength(1); y++)
                     {
-                        for (int x = 0; x < Positions.GetLength(1) ; x++)
+                        for (int x = 0; x < Positions.GetLength(0); x++)
                         {
-                            if (!Positions[y, x].IsOpen && !Positions[y, x].HasMine)
+                            if (Positions[y,x].IsOpen && !Positions[y,x].HasMine)
                             {
-                                temp++; break;
+                                State = GameState.Won;
                             }
-                            if (temp > 0)
-                                break;
-
                         }
                     }
-                    
-                    if (temp == 0)
-                        State = GameState.Won;
                 }
             }
         }
@@ -323,5 +322,37 @@ namespace MineSweeperLogic
         }
 
         #endregion
+
+        private void FloodFill(int x, int y)
+        {
+            //perform bounds checking X
+            if ((x > Positions.GetLength(0) -1)|| (x < 0))
+                return; //outside of bounds
+
+            //perform bounds checking Y
+            if ((y > Positions.GetLength(1) -1) || (y < 0))
+                return; //ouside of bounds
+
+            //check to see if the node is the target color
+            if (Positions[x,y].IsOpen || Positions[x, y].HasMine || Positions[x, y].IsFlagged || Positions[x,y].NrOfNeighbours !=0)
+                return; //return and do nothing
+            else
+            {
+                Positions[x, y].IsOpen = true;
+
+                //recurse
+                //try to fill one step to the right
+                FloodFill(x + 1, y);
+                //try to fill one step to the left
+                FloodFill(x - 1, y);
+                //try to fill one step to the north
+                FloodFill(x , y - 1);
+                //try to fill one step to the south
+                FloodFill(x, y + 1);
+
+                //exit method
+                return;
+            }
+        }
     }
 }
