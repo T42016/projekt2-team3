@@ -51,6 +51,14 @@ namespace MineSweeperLogic
             {
                 if (Positions[PosY, PosX].HasMine)
                 {
+                    for (int y = 0; y < Positions.GetLength(0); y++)
+                    {
+                        for (int x = 0; x < Positions.GetLength(1); x++)
+                        {
+                            if (Positions[y, x].HasMine)
+                                Positions[y, x].IsOpen = true;
+                        }
+                    }
                     State = GameState.Lost;
                 }
                 else
