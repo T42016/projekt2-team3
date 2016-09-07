@@ -16,6 +16,8 @@ namespace MineSweeperLogic
             SizeY = sizeY;
             NumberOfMines = nrOfMines;
             iSB = bus;
+            Positions = new PositionInfo[SizeY,SizeX];
+            ResetBoard();
         }
         private IServiceBus iSB;
 
@@ -26,20 +28,20 @@ namespace MineSweeperLogic
         public int NumberOfMines { get; }
         public GameState State { get; private set; }
         private string symbol;
-        PositionInfo[,] positions;
+        public PositionInfo[,] Positions;
 
         public PositionInfo GetCoordinate(int x, int y)
         {
-            return positions[x, y];
+            return Positions[y, x];
             //return new PositionInfo();
         }
 
         public void FlagCoordinate()
         {
-            if (!positions[PosX, PosY].IsFlagged)
-                positions[PosX, PosY].IsFlagged = true;
+            if (!Positions[PosY, PosX].IsFlagged)
+                Positions[PosY, PosX].IsFlagged = true;
             else
-                positions[PosX, PosY].IsFlagged = false;
+                Positions[PosY, PosX].IsFlagged = false;
         }
 
         public void ClickCoordinate()
@@ -48,6 +50,36 @@ namespace MineSweeperLogic
 
         public void ResetBoard()
         {
+            // Creates epmty positions
+            for (int y = 0; y < Positions.GetLength(0); y++)
+            {
+                for (int x = 0; x < Positions.GetLength(1); x++)
+                {
+                    Positions[y, x] = new PositionInfo();
+                    Positions[y, x].Y = y;
+                    Positions[y, x].X = x;
+                    Positions[y, x].HasMine = false;
+                    Positions[y, x].IsFlagged = false;
+                    Positions[y, x].IsOpen = false;
+                    Positions[y, x].NrOfNeighbours = 0;
+                }
+            }
+
+            // Add mines in random positions
+            int currentMines = 0;
+            ServiceBus sBus = new ServiceBus();
+
+            while (currentMines < NumberOfMines)
+            {
+                int randX = sBus.Next(SizeX);
+                int randY = sBus.Next(SizeY);
+                if (Positions[randY, randX].HasMine == false)
+                {
+                    Positions[randY, randX].HasMine = true;
+                    currentMines++;
+                }
+
+            }
         }
 
         public void DrawBoard()
