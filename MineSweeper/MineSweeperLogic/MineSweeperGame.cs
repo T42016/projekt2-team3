@@ -62,21 +62,20 @@ namespace MineSweeperLogic
                     }
                     State = GameState.Lost;
                 }
-                else if (Positions[PosY, PosX].NrOfNeighbours != 0)
-                    Positions[PosY, PosX].IsOpen = true;
+                else if (Positions[PosX, PosY].NrOfNeighbours != 0)
+                    Positions[PosX, PosY].IsOpen = true;
 
                 else
                 {
                 temp = 0;
-                    FloodFill(PosY, PosX);
+                FloodFill(PosX, PosY);
                 Positions[PosX, PosY].IsOpen = true;
                    
-                for (int y = 0; y < Positions.GetLength(0); y++)
-                    for (int y = 0; y < Positions.GetLength(1); y++)
+                for (int y = 0; y < Positions.GetLength(1); y++)
                 {
                         for (int x = 0; x < Positions.GetLength(0); x++)
                     {
-                            if (Positions[y,x].IsOpen && !Positions[y,x].HasMine)
+                            if (Positions[x,y].IsOpen && !Positions[x,y].HasMine)
                         {
                                 State = GameState.Won;
                         }
