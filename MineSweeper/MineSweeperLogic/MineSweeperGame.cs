@@ -15,11 +15,11 @@ namespace MineSweeperLogic
             SizeY = sizeY;
             NumberOfMines = nrOfMines;
             iSB = bus;
-            Positions = new PositionInfo[SizeY,SizeX];
+            Positions = new PositionInfo[SizeY, SizeX];
             ResetBoard();
         }
-        private IServiceBus iSB;
 
+        private IServiceBus iSB;
         public int PosX { get; private set; }
         public int PosY { get; private set; }
         public int SizeX { get; }
@@ -27,12 +27,11 @@ namespace MineSweeperLogic
         public int NumberOfMines { get; }
         public GameState State { get; private set; }
         private string symbol;
-        public PositionInfo[,] Positions;
+        private PositionInfo[,] Positions;
 
         public PositionInfo GetCoordinate(int x, int y)
         {
             return Positions[y, x];
-            //return new PositionInfo();
         }
 
         public void FlagCoordinate()
@@ -53,13 +52,12 @@ namespace MineSweeperLogic
                 if (Positions[PosY, PosX].HasMine)
                 {
                     State = GameState.Lost;
-                    
                 }
                 else
                 {
-                    Positions[PosY, PosX].IsOpen = true;
-                    
+
                 }
+                Positions[PosY, PosX].IsOpen = true;
             }
         }
 
@@ -79,7 +77,7 @@ namespace MineSweeperLogic
                     Positions[y, x].NrOfNeighbours = 0;
                 }
             }
-            
+
             // Add mines in random positions
             int currentMines = 0;
 
@@ -92,7 +90,6 @@ namespace MineSweeperLogic
                     Positions[randY, randX].HasMine = true;
                     currentMines++;
                 }
-                
             }
 
             // Calculates neighbours
@@ -114,9 +111,9 @@ namespace MineSweeperLogic
                     // Checks if position is in 0,(SizeX - 1) corner
                     else if (Positions[y, x].Y == 0 && Positions[y, x].X == (SizeX - 1))
                     {
-                        if (Positions[0, x-1].HasMine)
+                        if (Positions[0, x - 1].HasMine)
                             Positions[y, x].NrOfNeighbours++;
-                        if (Positions[1, x-1].HasMine)
+                        if (Positions[1, x - 1].HasMine)
                             Positions[y, x].NrOfNeighbours++;
                         if (Positions[1, x].HasMine)
                             Positions[y, x].NrOfNeighbours++;
@@ -127,138 +124,114 @@ namespace MineSweeperLogic
                     {
                         if (Positions[y, 1].HasMine)
                             Positions[y, x].NrOfNeighbours++;
-                        if (Positions[y-1, 1].HasMine)
+                        if (Positions[y - 1, 1].HasMine)
                             Positions[y, x].NrOfNeighbours++;
-                        if (Positions[y-1, 0].HasMine)
+                        if (Positions[y - 1, 0].HasMine)
                             Positions[y, x].NrOfNeighbours++;
                     }
 
                     // Checks if position is in (SizeY - 1),(SizeX - 1) corner
                     else if (Positions[y, x].Y == (SizeY - 1) && Positions[y, x].X == (SizeX - 1))
                     {
-                        if (Positions[y, x-1].HasMine)
+                        if (Positions[y, x - 1].HasMine)
                             Positions[y, x].NrOfNeighbours++;
-                        if (Positions[y-1, x-1].HasMine)
+                        if (Positions[y - 1, x - 1].HasMine)
                             Positions[y, x].NrOfNeighbours++;
-                        if (Positions[y-1, x].HasMine)
+                        if (Positions[y - 1, x].HasMine)
                             Positions[y, x].NrOfNeighbours++;
                     }
 
                     // Checks if position is in row 0
                     else if (Positions[y, x].Y == 0)
                     {
-                        if (Positions[0, x-1].HasMine)
+                        if (Positions[0, x - 1].HasMine)
                             Positions[y, x].NrOfNeighbours++;
-                        if (Positions[1, x-1].HasMine)
+                        if (Positions[1, x - 1].HasMine)
                             Positions[y, x].NrOfNeighbours++;
                         if (Positions[1, x].HasMine)
                             Positions[y, x].NrOfNeighbours++;
-                        if (Positions[1, x+1].HasMine)
+                        if (Positions[1, x + 1].HasMine)
                             Positions[y, x].NrOfNeighbours++;
-                        if (Positions[0, x+1].HasMine)
+                        if (Positions[0, x + 1].HasMine)
                             Positions[y, x].NrOfNeighbours++;
                     }
 
                     // Checks if position is in row (SizeY - 1)
                     else if (Positions[y, x].Y == (SizeY - 1))
                     {
-                        if (Positions[y, x-1].HasMine)
+                        if (Positions[y, x - 1].HasMine)
                             Positions[y, x].NrOfNeighbours++;
-                        if (Positions[y-1, x-1].HasMine)
+                        if (Positions[y - 1, x - 1].HasMine)
                             Positions[y, x].NrOfNeighbours++;
-                        if (Positions[y-1, x].HasMine)
+                        if (Positions[y - 1, x].HasMine)
                             Positions[y, x].NrOfNeighbours++;
-                        if (Positions[y-1, x+1].HasMine)
+                        if (Positions[y - 1, x + 1].HasMine)
                             Positions[y, x].NrOfNeighbours++;
-                        if (Positions[y, x+1].HasMine)
+                        if (Positions[y, x + 1].HasMine)
                             Positions[y, x].NrOfNeighbours++;
                     }
 
                     // Checks if position is in colum 0
                     else if (Positions[y, x].X == 0)
                     {
-                        if (Positions[y-1, 0].HasMine)
+                        if (Positions[y - 1, 0].HasMine)
                             Positions[y, x].NrOfNeighbours++;
-                        if (Positions[y-1, 1].HasMine)
+                        if (Positions[y - 1, 1].HasMine)
                             Positions[y, x].NrOfNeighbours++;
                         if (Positions[y, 1].HasMine)
                             Positions[y, x].NrOfNeighbours++;
-                        if (Positions[y+1, 0].HasMine)
+                        if (Positions[y + 1, 0].HasMine)
                             Positions[y, x].NrOfNeighbours++;
-                        if (Positions[y+1, 1].HasMine)
+                        if (Positions[y + 1, 1].HasMine)
                             Positions[y, x].NrOfNeighbours++;
                     }
 
                     // Checks if position is in colum (SizeX - 1)
                     else if (Positions[y, x].X == (SizeX - 1))
                     {
-                        if (Positions[y-1, x].HasMine)
+                        if (Positions[y - 1, x].HasMine)
                             Positions[y, x].NrOfNeighbours++;
-                        if (Positions[y-1, x-1].HasMine)
+                        if (Positions[y - 1, x - 1].HasMine)
                             Positions[y, x].NrOfNeighbours++;
-                        if (Positions[y, x-1].HasMine)
+                        if (Positions[y, x - 1].HasMine)
                             Positions[y, x].NrOfNeighbours++;
-                        if (Positions[y+1, x-1].HasMine)
+                        if (Positions[y + 1, x - 1].HasMine)
                             Positions[y, x].NrOfNeighbours++;
-                        if (Positions[y+1, x].HasMine)
+                        if (Positions[y + 1, x].HasMine)
                             Positions[y, x].NrOfNeighbours++;
                     }
 
                     // If position is not in a corner, outer row or colum
                     else
                     {
-                        if (Positions[y-1, x-1].HasMine)
+                        if (Positions[y - 1, x - 1].HasMine)
                             Positions[y, x].NrOfNeighbours++;
-                        if (Positions[y-1, x].HasMine)
+                        if (Positions[y - 1, x].HasMine)
                             Positions[y, x].NrOfNeighbours++;
-                        if (Positions[y-1, x+1].HasMine)
+                        if (Positions[y - 1, x + 1].HasMine)
                             Positions[y, x].NrOfNeighbours++;
-                        if (Positions[y, x-1].HasMine)
+                        if (Positions[y, x - 1].HasMine)
                             Positions[y, x].NrOfNeighbours++;
-                        if (Positions[y, x+1].HasMine)
+                        if (Positions[y, x + 1].HasMine)
                             Positions[y, x].NrOfNeighbours++;
-                        if (Positions[y+1, x-1].HasMine)
+                        if (Positions[y + 1, x - 1].HasMine)
                             Positions[y, x].NrOfNeighbours++;
-                        if (Positions[y+1, x].HasMine)
+                        if (Positions[y + 1, x].HasMine)
                             Positions[y, x].NrOfNeighbours++;
-                        if (Positions[y+1, x+1].HasMine)
+                        if (Positions[y + 1, x + 1].HasMine)
                             Positions[y, x].NrOfNeighbours++;
                     }
                 }
             }
             State = GameState.Playing;
-        } 
-        
+        }
+
         public void DrawBoard()
         {
             for (int i = 0; i < SizeY; i++)
             {
                 for (int j = 0; j < SizeX; j++)
                 {
-
-                    //color = ConsoleColor.DarkCyan;
-
-                    //if (j == PosX && i == PosY)
-                    //    color = ConsoleColor.DarkCyan;
-                    //else
-                    //    color = ConsoleColor.Black;
-
-                    //if (GetCoordinate(j, i).IsFlagged)
-                    //    symbol = "! ";
-                    //else if (GetCoordinate(j, i).IsOpen)
-                    //{
-                    //    if (GetCoordinate(j, i).HasMine)
-                    //        symbol = "X ";
-                    //    else if (GetCoordinate(j, i).NrOfNeighbours == 0)
-                    //        symbol = ".  ";
-                    //    else
-                    //        symbol = GetCoordinate(j, i).NrOfNeighbours + " ";
-                    //}
-                    //else
-                    //    symbol = "? ";
-                    //iSB.Write(symbol,color);
-
-
                     if (j == PosX && i == PosY)
                     {
                         if (GetCoordinate(j, i).IsFlagged)
@@ -276,7 +249,6 @@ namespace MineSweeperLogic
                             symbol = "? ";
                         iSB.Write(symbol, ConsoleColor.DarkCyan);
                     }
-
                     else
                     {
                         if (GetCoordinate(j, i).IsFlagged)
@@ -294,14 +266,9 @@ namespace MineSweeperLogic
                             symbol = "? ";
                         iSB.Write(symbol);
                     }
-
-
-
-
                 }
                 iSB.WriteLine();
             }
-
         }
 
         #region MoveCursor Methods
@@ -312,36 +279,24 @@ namespace MineSweeperLogic
                 PosY--;
         }
 
-
         public void MoveCursorDown()
         {
             if (PosY < SizeY - 1)
                 PosY++;
         }
 
-
-
         public void MoveCursorLeft()
         {
             if (PosX > 0)
                 PosX--;
-
         }
-
 
         public void MoveCursorRight()
         {
             if (PosX < SizeX - 1)
                 PosX++;
-
         }
 
-
-
-
-
-
         #endregion
-
     }
 }
