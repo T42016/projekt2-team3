@@ -48,7 +48,7 @@ namespace MineSweeperLogic
 
         public void ClickCoordinate()
         {
-            if (!Positions[PosY, PosX].IsOpen && !Positions[PosY, PosX].IsFlagged)
+            if (!Positions[PosX, PosY].IsOpen && !Positions[PosX, PosY].IsFlagged)
             {
                 if (Positions[PosX, PosY].HasMine)
                 {
@@ -64,23 +64,20 @@ namespace MineSweeperLogic
                 }
                 else
                 {
-
-                    temp = 0;
-                   Positions[PosY, PosX].IsOpen = true;
-                    for (int y = 0; y < Positions.GetLength(0); y++)
+                temp = 0;
+                Positions[PosX, PosY].IsOpen = true;
+                for (int y = 0; y < Positions.GetLength(0); y++)
+                {
+                    for (int x = 0; x < Positions.GetLength(1) ; x++)
                     {
-                        for (int x = 0; x < Positions.GetLength(1) ; x++)
+                        if (!Positions[y, x].IsOpen && !Positions[y, x].HasMine)
                         {
-                            if (!Positions[y, x].IsOpen && !Positions[y, x].HasMine)
-                            {
-                                temp++; break;
-                            }
-                            if (temp > 0)
-                                break;
-
+                            temp++; break;
                         }
+                        if (temp > 0)
+                            break;
                     }
-                    
+                }
                     if (temp == 0)
                         State = GameState.Won;
                 }
@@ -249,17 +246,6 @@ namespace MineSweeperLogic
                     }
                 }
             }
-
-            for (int y = 0; y < Positions.GetLength(1); y++)
-            {
-                for (int x = 0; x < Positions.GetLength(0); x++)
-                {
-                    Console.WriteLine(Positions[x, y].NrOfNeighbours);
-                }
-            }
-
-            Console.ReadKey();
-
             State = GameState.Playing;
         }
 
