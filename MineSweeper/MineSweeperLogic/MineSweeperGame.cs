@@ -18,7 +18,7 @@ namespace MineSweeperLogic
             Positions = new PositionInfo[SizeY, SizeX];
             ResetBoard();
         }
-
+        private int temp;
         private IServiceBus iSB;
         public int PosX { get; private set; }
         public int PosY { get; private set; }
@@ -64,8 +64,25 @@ namespace MineSweeperLogic
                 else
                 {
 
+                    temp = 0;
+                   Positions[PosY, PosX].IsOpen = true;
+                    for (int y = 0; y < Positions.GetLength(0); y++)
+                    {
+                        for (int x = 0; x < Positions.GetLength(1) ; x++)
+                        {
+                            if (!Positions[y, x].IsOpen && !Positions[y, x].HasMine)
+                            {
+                                temp++; break;
+                            }
+                            if (temp > 0)
+                                break;
+
+                        }
+                    }
+                    
+                    if (temp == 0)
+                        State = GameState.Won;
                 }
-                Positions[PosY, PosX].IsOpen = true;
             }
         }
 
