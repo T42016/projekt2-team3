@@ -38,10 +38,13 @@ namespace MineSweeperLogic
 
         public void FlagCoordinate()
         {
-            if (!Positions[PosY, PosX].IsFlagged)
-                Positions[PosY, PosX].IsFlagged = true;
-            else
-                Positions[PosY, PosX].IsFlagged = false;
+            if (!Positions[PosY, PosX].IsOpen)
+            {
+                if (!Positions[PosY, PosX].IsFlagged)
+                    Positions[PosY, PosX].IsFlagged = true;
+                else
+                    Positions[PosY, PosX].IsFlagged = false;
+            }
         }
 
         public void ClickCoordinate()
