@@ -17,8 +17,8 @@ namespace MineSweeperLogic
             NumberOfMines = nrOfMines;
             iSB = bus;
         }
-        private IServiceBus iSB ;
-       
+        private IServiceBus iSB;
+
         public int PosX { get; private set; }
         public int PosY { get; private set; }
         public int SizeX { get; }
@@ -26,10 +26,12 @@ namespace MineSweeperLogic
         public int NumberOfMines { get; }
         public GameState State { get; private set; }
         private string symbol;
+        PositionInfo[,] positions;
 
         public PositionInfo GetCoordinate(int x, int y)
         {
-            return new PositionInfo();
+            return positions[x, y];
+            //return new PositionInfo();
         }
 
         public void FlagCoordinate()
@@ -89,7 +91,7 @@ namespace MineSweeperLogic
                         }
                         else
                             symbol = "? ";
-                        iSB.Write(symbol,ConsoleColor.DarkCyan);
+                        iSB.Write(symbol, ConsoleColor.DarkCyan);
                     }
 
                     else
@@ -111,12 +113,12 @@ namespace MineSweeperLogic
                     }
 
 
-                  
+
 
                 }
                 iSB.WriteLine();
             }
-            
+
         }
 
         #region MoveCursor Methods
@@ -134,7 +136,7 @@ namespace MineSweeperLogic
                 PosY++;
         }
 
-       
+
 
         public void MoveCursorLeft()
         {
@@ -143,10 +145,10 @@ namespace MineSweeperLogic
 
         }
 
-  
+
         public void MoveCursorRight()
         {
-            if (PosX  < SizeX-1)
+            if (PosX < SizeX - 1)
                 PosX++;
 
         }
