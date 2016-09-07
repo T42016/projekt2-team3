@@ -31,7 +31,7 @@ namespace MineSweeperLogic
 
         public PositionInfo GetCoordinate(int x, int y)
         {
-            return Positions[y,x];
+            return Positions[y, x];
             //return new PositionInfo();
         }
 
@@ -48,6 +48,19 @@ namespace MineSweeperLogic
 
         public void ClickCoordinate()
         {
+            if (!Positions[PosY, PosX].IsOpen)
+            {
+                if (Positions[PosY, PosX].HasMine)
+                {
+                    State = GameState.Lost;
+                    
+                }
+                else
+                {
+                    Positions[PosY, PosX].IsOpen = true;
+                    
+                }
+            }
         }
 
         public void ResetBoard()
@@ -255,7 +268,7 @@ namespace MineSweeperLogic
                             if (GetCoordinate(j, i).HasMine)
                                 symbol = "X ";
                             else if (GetCoordinate(j, i).NrOfNeighbours == 0)
-                                symbol = ".  ";
+                                symbol = ". ";
                             else
                                 symbol = GetCoordinate(j, i).NrOfNeighbours + " ";
                         }
@@ -273,7 +286,7 @@ namespace MineSweeperLogic
                             if (GetCoordinate(j, i).HasMine)
                                 symbol = "X ";
                             else if (GetCoordinate(j, i).NrOfNeighbours == 0)
-                                symbol = ".  ";
+                                symbol = ". ";
                             else
                                 symbol = GetCoordinate(j, i).NrOfNeighbours + " ";
                         }
