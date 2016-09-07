@@ -15,11 +15,7 @@ namespace MineSweeperLogic
             SizeY = sizeY;
             NumberOfMines = nrOfMines;
             iSB = bus;
-<<<<<<< HEAD
-            Positions = new PositionInfo[SizeY, SizeX];
-=======
             Positions = new PositionInfo[SizeY,SizeX];
->>>>>>> origin/Movment
             ResetBoard();
         }
         private IServiceBus iSB;
@@ -30,26 +26,22 @@ namespace MineSweeperLogic
         public int SizeY { get; }
         public int NumberOfMines { get; }
         public GameState State { get; private set; }
-<<<<<<< HEAD
-        public PositionInfo[,] Positions { get; set; }
-        private IServiceBus iSB;
-
-        public PositionInfo GetCoordinate(int x, int y)
-        {
-            return Positions[y,x];
-=======
         private string symbol;
         public PositionInfo[,] Positions;
 
         public PositionInfo GetCoordinate(int x, int y)
         {
+<<<<<<< HEAD
+            return Positions[y,x];
+=======
             return Positions[y, x];
+>>>>>>> origin/feature-clickCoordinate
             //return new PositionInfo();
->>>>>>> origin/Movment
         }
 
         public void FlagCoordinate()
         {
+<<<<<<< HEAD
             if (!Positions[PosY, PosX].IsOpen)
             {
                 if (!Positions[PosY, PosX].IsFlagged)
@@ -57,10 +49,29 @@ namespace MineSweeperLogic
                 else
                     Positions[PosY, PosX].IsFlagged = false;
             }
+=======
+            if (!Positions[PosY, PosX].IsFlagged)
+                Positions[PosY, PosX].IsFlagged = true;
+            else
+                Positions[PosY, PosX].IsFlagged = false;
+>>>>>>> origin/feature-clickCoordinate
         }
 
         public void ClickCoordinate()
         {
+            if (!Positions[PosY, PosX].IsOpen)
+            {
+                if (Positions[PosY, PosX].HasMine)
+                {
+                    State = GameState.Lost;
+                    
+                }
+                else
+                {
+                    Positions[PosY, PosX].IsOpen = true;
+                    
+                }
+            }
         }
 
         public void ResetBoard()
@@ -98,7 +109,7 @@ namespace MineSweeperLogic
             {
                 int randX = sBus.Next(SizeX);
                 int randY = sBus.Next(SizeY);
->>>>>>> origin/Movment
+>>>>>>> origin/feature-clickCoordinate
                 if (Positions[randY, randX].HasMine == false)
                 {
                     Positions[randY, randX].HasMine = true;
@@ -186,6 +197,11 @@ namespace MineSweeperLogic
                         if (Positions[y, x+1].HasMine)
                             Positions[y, x].NrOfNeighbours++;
                     }
+=======
+
+            }
+        }
+>>>>>>> origin/feature-clickCoordinate
 
                     // Checks if position is in colum 0
                     else if (Positions[y, x].X == 0)
@@ -216,11 +232,6 @@ namespace MineSweeperLogic
                         if (Positions[y+1, x].HasMine)
                             Positions[y, x].NrOfNeighbours++;
                     }
-=======
-
-            }
-        }
->>>>>>> origin/Movment
 
                     // If position is not in a corner, outer row or colum
                     else
@@ -286,7 +297,11 @@ namespace MineSweeperLogic
                             if (GetCoordinate(j, i).HasMine)
                                 symbol = "X ";
                             else if (GetCoordinate(j, i).NrOfNeighbours == 0)
+<<<<<<< HEAD
                                 symbol = ".  ";
+=======
+                                symbol = ". ";
+>>>>>>> origin/feature-clickCoordinate
                             else
                                 symbol = GetCoordinate(j, i).NrOfNeighbours + " ";
                         }
@@ -304,7 +319,11 @@ namespace MineSweeperLogic
                             if (GetCoordinate(j, i).HasMine)
                                 symbol = "X ";
                             else if (GetCoordinate(j, i).NrOfNeighbours == 0)
+<<<<<<< HEAD
                                 symbol = ".  ";
+=======
+                                symbol = ". ";
+>>>>>>> origin/feature-clickCoordinate
                             else
                                 symbol = GetCoordinate(j, i).NrOfNeighbours + " ";
                         }
