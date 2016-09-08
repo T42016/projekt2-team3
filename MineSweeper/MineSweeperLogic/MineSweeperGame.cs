@@ -32,6 +32,7 @@ namespace MineSweeperLogic
         private PositionInfo[,] Positions;
         private string symbol;
         private int temp;
+        private int nrOfFlag;
 
         #endregion
 
@@ -318,6 +319,29 @@ namespace MineSweeperLogic
                             symbol = "? ";
                         iSB.Write(symbol);
                     }
+                }
+                if (y == 0)
+                {
+                    nrOfFlag = 0;
+                    for (int i = 0; i < SizeY; i++)
+                    {
+                        for (int j = 0; j < SizeX; j++)
+                        {
+                            if (Positions[j,i].IsFlagged)
+                            {
+                                nrOfFlag++;
+                            }
+                        }
+                    }
+                    iSB.Write("  Flagged:" + nrOfFlag);
+                }
+                if (y == 1)
+                {
+                    iSB.Write("  Mines:" + NumberOfMines);
+                }
+                if (y == 2)
+                {
+                     iSB.Write("  Opened:" + temp + "/" + (SizeX*SizeY - NumberOfMines));
                 }
                 iSB.WriteLine();
             }
