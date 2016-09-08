@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 
 namespace MineSweeperLogic
 {
-    
     public class MineSweeperGame
     {
         public MineSweeperGame(int sizeX, int sizeY, int nrOfMines, IServiceBus bus)
@@ -19,16 +18,22 @@ namespace MineSweeperLogic
             Positions = new PositionInfo[SizeX, SizeY];
             ResetBoard();
         }
-        private int temp;
-        private IServiceBus iSB;
+
+        #region variables
+        
         public int PosX { get; private set; }
         public int PosY { get; private set; }
         public int SizeX { get; }
         public int SizeY { get; }
         public int NumberOfMines { get; }
         public GameState State { get; private set; }
-        private string symbol;
+
+        private IServiceBus iSB;
         private PositionInfo[,] Positions;
+        private string symbol;
+        private int temp;
+
+        #endregion
 
         public PositionInfo GetCoordinate(int x, int y)
         {
@@ -50,8 +55,10 @@ namespace MineSweeperLogic
         {
             if (!Positions[PosX, PosY].IsOpen && !Positions[PosX, PosY].IsFlagged)
             {
+                // Checks for loss
                 if (Positions[PosX, PosY].HasMine)
                 {
+                    // Reveals rest of mines
                     for (int y = 0; y < Positions.GetLength(1); y++)
                     {
                         for (int x = 0; x < Positions.GetLength(0); x++)
@@ -62,6 +69,8 @@ namespace MineSweeperLogic
                     }
                     State = GameState.Lost;
                 }
+
+                // Should not trigger floodfill if position has neighbours
                 else if (Positions[PosX, PosY].NrOfNeighbours != 0)
                 {
                     Positions[PosX, PosY].IsOpen = true;
@@ -82,6 +91,7 @@ namespace MineSweeperLogic
                         State = GameState.Won;
                 }
 
+                // Triggers floodfill if position has no neighbours
                 else
                 {
                 FloodFill(PosX, PosY);
@@ -123,7 +133,6 @@ namespace MineSweeperLogic
 
             // Add mines in random positions
             int currentMines = 0;
-
             while (currentMines < NumberOfMines && currentMines < SizeX*SizeY)
             {
                 int randX = iSB.Next(SizeX);
