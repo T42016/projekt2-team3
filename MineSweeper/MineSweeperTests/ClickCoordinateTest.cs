@@ -131,6 +131,36 @@ namespace MineSweeperTests
             Assert.AreEqual(GameState.Won, game.State);
         }
 
+        [TestMethod]
+        public void ClickCoordinateShouldNotAlwaysResultInGameWin()
+        {
+            //Arrange
+            var bus = A.Fake<IServiceBus>();
+            A.CallTo(() => bus.Next(A<int>.Ignored)).ReturnsNextFromSequence(2, 2, 0, 2);
+            var game = new MineSweeperGame(5, 5, 2, bus);
+
+            //Act
+            game.ClickCoordinate();
+            //Assert
+            Assert.AreEqual(GameState.Playing, game.State);
+        }
+
+        [TestMethod]
+        public void ClickCoordinateShouldOpenNeighbourPositions()
+        {
+            //Arrange
+            var bus = A.Fake<IServiceBus>();
+            A.CallTo(() => bus.Next(A<int>.Ignored)).ReturnsNextFromSequence(2, 2);
+            var game = new MineSweeperGame(5, 5, 1, bus);
+
+            //Act
+            game.ClickCoordinate();
+            var coord = game.GetCoordinate(1, 2);
+
+            //Assert
+            Assert.AreEqual(true, coord.IsOpen);
+        }
+
         #region ClickCoordinateShouldOnlyOpenOneCoordinate Near Mine
 
         [TestMethod]
