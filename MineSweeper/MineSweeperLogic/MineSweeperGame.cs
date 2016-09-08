@@ -63,24 +63,43 @@ namespace MineSweeperLogic
                     State = GameState.Lost;
                 }
                 else if (Positions[PosX, PosY].NrOfNeighbours != 0)
+                {
                     Positions[PosX, PosY].IsOpen = true;
+
+                    // Checks for win
+                    temp = 0;
+                    for (int y = 0; y < Positions.GetLength(1); y++)
+                    {
+                        for (int x = 0; x < Positions.GetLength(0); x++)
+                        {
+                            if (Positions[x, y].IsOpen && !Positions[x, y].HasMine)
+                            {
+                                temp++;
+                            }
+                        }
+                    }
+                    if (temp == ((SizeX * SizeY) - NumberOfMines))
+                        State = GameState.Won;
+                }
 
                 else
                 {
-                temp = 0;
                 FloodFill(PosX, PosY);
-                Positions[PosX, PosY].IsOpen = true;
-                   
+
+                // Checks for win
+                temp = 0;
                 for (int y = 0; y < Positions.GetLength(1); y++)
                 {
-                        for (int x = 0; x < Positions.GetLength(0); x++)
+                    for (int x = 0; x < Positions.GetLength(0); x++)
                     {
-                            if (Positions[x,y].IsOpen && !Positions[x,y].HasMine)
+                        if (Positions[x,y].IsOpen && !Positions[x,y].HasMine)
                         {
-                                State = GameState.Won;
+                            temp++;
                         }
                     }
                 }
+                if (temp == ((SizeX*SizeY) - NumberOfMines))
+                    State = GameState.Won;
                 }
             }
         }
@@ -105,7 +124,7 @@ namespace MineSweeperLogic
             // Add mines in random positions
             int currentMines = 0;
 
-            while (currentMines < NumberOfMines)
+            while (currentMines < NumberOfMines && currentMines < SizeX*SizeY)
             {
                 int randX = iSB.Next(SizeX);
                 int randY = iSB.Next(SizeY);
@@ -334,9 +353,9 @@ namespace MineSweeperLogic
                 return; //ouside of bounds
 
             //check to see if the node is the target color
-            if (Positions[x,y].IsOpen || Positions[x, y].HasMine || Positions[x, y].IsFlagged || Positions[x,y].NrOfNeighbours !=0)
+            if (Positions[x,y].IsOpen || Positions[x, y].HasMine || Positions[x, y].IsFlagged)
                 return; //return and do nothing
-            else
+            else if (Positions[x, y].NrOfNeighbours == 0)
             {
                 Positions[x, y].IsOpen = true;
 
@@ -351,6 +370,11 @@ namespace MineSweeperLogic
                 FloodFill(x, y + 1);
 
                 //exit method
+                return;
+            }
+            else
+            {
+                Positions[x, y].IsOpen = true;
                 return;
             }
         }
