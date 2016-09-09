@@ -50,6 +50,19 @@ namespace MineSweeperLogic
                 else
                     Positions[PosX, PosY].IsFlagged = false;
             }
+
+            // Counts number of flagged positions
+            nrOfFlagged = 0;
+            for (int y = 0; y < SizeY; y++)
+            {
+                for (int x = 0; x < SizeX; x++)
+                {
+                    if (Positions[x, y].IsFlagged)
+                    {
+                        nrOfFlagged++;
+                    }
+                }
+            }
         }
 
         public void ClickCoordinate()
