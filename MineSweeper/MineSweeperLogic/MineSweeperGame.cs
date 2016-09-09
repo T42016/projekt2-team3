@@ -14,6 +14,8 @@ namespace MineSweeperLogic
             SizeX = sizeX;
             SizeY = sizeY;
             NumberOfMines = nrOfMines;
+            if (nrOfMines > SizeX*SizeY)
+                NumberOfMines = SizeX*SizeY;
             iSB = bus;
             Positions = new PositionInfo[SizeX, SizeY];
             ResetBoard();
@@ -156,7 +158,7 @@ namespace MineSweeperLogic
 
             // Add mines in random positions
             int currentMines = 0;
-            while (currentMines < NumberOfMines && currentMines < SizeX*SizeY)
+            while (currentMines < NumberOfMines)
             {
                 int randX = iSB.Next(SizeX);
                 int randY = iSB.Next(SizeY);
