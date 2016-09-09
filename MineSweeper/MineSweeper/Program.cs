@@ -18,6 +18,23 @@ namespace MineSweeper
                 Console.Clear();
                 game.DrawBoard();
 
+                // Writes out number of flagged, mines & opened positions
+                Console.SetCursorPosition(game.SizeX * 2 + 5, 0);
+                Console.Write("Flagged:");
+                Console.SetCursorPosition(game.SizeX * 2 + 15, 0);
+                Console.Write(game.nrOfFlagged);
+                Console.SetCursorPosition(game.SizeX * 2 + 5, 1);
+                Console.Write("Mines:");
+                Console.SetCursorPosition(game.SizeX * 2 + 15, 1);
+                Console.Write(game.NumberOfMines);
+                Console.SetCursorPosition(game.SizeX * 2 + 5, 2);
+                Console.Write("Opened:");
+                Console.SetCursorPosition(game.SizeX * 2 + 15, 2);
+                Console.Write(game.nrOfOpened + "/" + ((game.SizeX * game.SizeY) - game.NumberOfMines));
+
+                // Sets cursor position back to normal
+                Console.SetCursorPosition(0,game.SizeY);
+
                 if (game.State == GameState.Won)
                 {
                     Console.WriteLine("You won!");

@@ -27,13 +27,13 @@ namespace MineSweeperLogic
         public int SizeY { get; }
         public int NumberOfMines { get; }
         public GameState State { get; private set; }
+        public int nrOfOpened { get; private set; }
+        public int nrOfFlagged { get; private set; }
 
         private IServiceBus iSB;
         private PositionInfo[,] Positions;
         private string symbol;
-        private int nrOfOpen;
-        private int nrOfFlag;
-
+        
         #endregion
 
         public PositionInfo GetCoordinate(int x, int y)
@@ -77,18 +77,18 @@ namespace MineSweeperLogic
                     Positions[PosX, PosY].IsOpen = true;
 
                     // Checks for win
-                    nrOfOpen = 0;
+                    nrOfOpened = 0;
                     for (int y = 0; y < Positions.GetLength(1); y++)
                     {
                         for (int x = 0; x < Positions.GetLength(0); x++)
                         {
                             if (Positions[x, y].IsOpen && !Positions[x, y].HasMine)
                             {
-                                nrOfOpen++;
+                                nrOfOpened++;
                             }
                         }
                     }
-                    if (nrOfOpen == ((SizeX * SizeY) - NumberOfMines))
+                    if (nrOfOpened == ((SizeX * SizeY) - NumberOfMines))
                         State = GameState.Won;
                 }
 
@@ -98,19 +98,32 @@ namespace MineSweeperLogic
                 FloodFill(PosX, PosY);
 
                 // Checks for win
-                nrOfOpen = 0;
+                nrOfOpened = 0;
                 for (int y = 0; y < Positions.GetLength(1); y++)
                 {
                     for (int x = 0; x < Positions.GetLength(0); x++)
                     {
                         if (Positions[x,y].IsOpen && !Positions[x,y].HasMine)
                         {
-                            nrOfOpen++;
+                            nrOfOpened++;
                         }
                     }
                 }
-                if (nrOfOpen == ((SizeX*SizeY) - NumberOfMines))
+                if (nrOfOpened == ((SizeX*SizeY) - NumberOfMines))
                     State = GameState.Won;
+                }
+            }
+
+            // Counts number of flagged positions
+            nrOfFlagged = 0;
+            for (int y = 0; y < SizeY; y++)
+            {
+                for (int x = 0; x < SizeX; x++)
+                {
+                    if (Positions[x, y].IsFlagged)
+                    {
+                        nrOfFlagged++;
+                    }
                 }
             }
         }
@@ -277,8 +290,8 @@ namespace MineSweeperLogic
                 }
             }
             State = GameState.Playing;
-            nrOfOpen = 0;
-            nrOfFlag = 0;
+            nrOfOpened = 0;
+            nrOfFlagged = 0;
         }
 
         public void DrawBoard()
@@ -321,29 +334,6 @@ namespace MineSweeperLogic
                             symbol = "? ";
                         iSB.Write(symbol);
                     }
-                }
-                if (y == 0)
-                {
-                    nrOfFlag = 0;
-                    for (int i = 0; i < SizeY; i++)
-                    {
-                        for (int j = 0; j < SizeX; j++)
-                        {
-                            if (Positions[j,i].IsFlagged)
-                            {
-                                nrOfFlag++;
-                            }
-                        }
-                    }
-                    iSB.Write("   Flagged:   " + nrOfFlag);
-                }
-                if (y == 1)
-                {
-                    iSB.Write("   Mines:     " + NumberOfMines);
-                }
-                if (y == 2)
-                {
-                     iSB.Write("   Opened:    " + nrOfOpen + "/" + (SizeX*SizeY - NumberOfMines));
                 }
                 iSB.WriteLine();
             }
