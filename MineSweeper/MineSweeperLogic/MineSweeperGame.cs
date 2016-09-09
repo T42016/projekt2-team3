@@ -138,10 +138,6 @@ namespace MineSweeperLogic
                     Positions[x, y] = new PositionInfo();
                     Positions[x, y].X = x;
                     Positions[x, y].Y = y;
-                    Positions[x, y].HasMine = false;
-                    Positions[x, y].IsFlagged = false;
-                    Positions[x, y].IsOpen = false;
-                    Positions[x, y].NrOfNeighbours = 0;
                 }
             }
 
